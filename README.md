@@ -53,7 +53,8 @@ crystal spec
 ```
 
 Code style follows Crystal's formatter. Run `crystal tool format` before
-submitting patches.
+submitting patches. Run `./bin/ameba` as well to catch style and lint
+issues.
 
 Architecture Decision Records are kept in `docs/adr`. Please consult existing
 records and create a new one if your change introduces new decisions.
