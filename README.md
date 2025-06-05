@@ -4,6 +4,8 @@
 converting HTML documents into Markdown format. The project aims to offer a
 simple API that can be embedded in other Crystal applications while also
 providing an easy to use binary for quick conversions on the command line.
+At this early stage the conversion only extracts the textual content from the
+HTML input. Future releases will add proper Markdown rendering of elements.
 
 The library is currently in its early planning stage. The documentation lays out
 the goals and how to contribute before any implementation begins.
@@ -51,7 +53,8 @@ crystal spec
 ```
 
 Code style follows Crystal's formatter. Run `crystal tool format` before
-submitting patches.
+submitting patches. Static analysis is performed with `ameba`, run `./bin/ameba`
+after installing dependencies.
 
 Architecture Decision Records are kept in `docs/adr`. Please consult existing
 records and create a new one if your change introduces new decisions.
