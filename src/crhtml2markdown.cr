@@ -1,6 +1,6 @@
 require "xml"
 
-# TODO: Write documentation for `Crhtml2markdown`
+# Provides HTML to Markdown conversion utilities
 module Crhtml2markdown
   VERSION = "0.1.0"
 
