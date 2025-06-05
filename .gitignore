@@ -1,5 +1,7 @@
 # Ignore compiled shards and other artifacts
 /lib/
 /bin/
+!/bin/
+!/bin/crhtml2markdown
 /.shards/
 *.dwarf

@@ -34,14 +34,12 @@ require "crhtml2markdown"
 markdown = Crhtml2markdown.convert("<p>Hello</p>")
 ```
 
-The project will also expose a command line interface:
+The project provides a command line interface:
 
 ```bash
 $ crhtml2markdown input.html > output.md
 ```
 
-The binary is not yet implemented but these examples illustrate the intended
-workflow.
 
 ## Development
 
