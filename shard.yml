@@ -1,0 +1,13 @@
+name: crhtml2markdown
+version: 0.1.0
+
+authors:
+  - Patryk Ptasiński <patryk@ipepe.pl>
+
+targets:
+  crhtml2markdown:
+    main: src/crhtml2markdown.cr
+
+crystal: '>= 1.16.2'
+
+license: MIT
