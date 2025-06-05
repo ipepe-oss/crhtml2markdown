@@ -2,6 +2,9 @@ require "xml"
 
 require "./crhtml2markdown/converters/element_converter"
 require "./crhtml2markdown/converters/heading_converter"
+require "./crhtml2markdown/converters/paragraph_converter"
+require "./crhtml2markdown/converters/emphasis_converter"
+require "./crhtml2markdown/converters/link_converter"
 require "./crhtml2markdown/converters/text_converter"
 
 # TODO: Write documentation for `Crhtml2markdown`
@@ -10,6 +13,9 @@ module Crhtml2markdown
 
   @@converters = [
     HeadingConverter.new,
+    ParagraphConverter.new,
+    EmphasisConverter.new,
+    LinkConverter.new,
     TextConverter.new,
   ]
 
@@ -26,7 +32,7 @@ module Crhtml2markdown
     end.strip
   end
 
-  private def self.convert_node(node : XML::Node, io : IO)
+  def self.convert_node(node : XML::Node, io : IO)
     if converter = @@converters.find(&.handles?(node))
       converter.convert(node, io)
     else
