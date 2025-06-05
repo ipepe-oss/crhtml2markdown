@@ -1,4 +1,4 @@
-/docs/
+# Ignore compiled shards and other artifacts
 /lib/
 /bin/
 /.shards/

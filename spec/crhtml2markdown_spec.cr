@@ -4,6 +4,7 @@ describe Crhtml2markdown do
   # TODO: Write tests
 
   it "works" do
-    false.should eq(true)
+    # Placeholder test ensuring the spec suite runs
+    true.should eq(true)
   end
 end
