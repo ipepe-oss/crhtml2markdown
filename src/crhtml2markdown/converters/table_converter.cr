@@ -59,9 +59,19 @@ module Crhtml2markdown
         text = String.build do |inner|
           td.children.each { |child| Crhtml2markdown.convert_node(child, inner) }
         end.strip
-        cells << escape_pipes(text)
+        cells << escape_pipes(flatten_cell(text))
       end
       cells
+    end
+
+    # Markdown table cells must be single-line. Collapse any multi-line
+    # content (e.g. fenced code blocks, headings) into one line.
+    private def flatten_cell(text : String) : String
+      return text unless text.includes?("\n")
+      # Convert fenced code blocks to inline code
+      text = text.gsub(/```\w*\n(.*?)\n```/m) { |_, m| "`#{m[1].gsub('\n', ' ').strip}`" }
+      # Collapse remaining newlines into spaces
+      text.gsub(/\s*\n\s*/, " ").strip
     end
 
     private def escape_pipes(text : String) : String

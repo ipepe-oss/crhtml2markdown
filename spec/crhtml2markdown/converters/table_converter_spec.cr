@@ -42,4 +42,27 @@ describe Crhtml2markdown::TableConverter do
     expected = "| Left | Center | Right | \n| ---- | :----: | ----: | \n| a    | b      | c     |"
     Crhtml2markdown.convert(html).should eq(expected)
   end
+
+  it "escapes pipe characters in cell content" do
+    html = "<table><thead><tr><th>Name</th><th>Char</th></tr></thead><tbody><tr><td>Pipe</td><td>|</td></tr></tbody></table>"
+    result = Crhtml2markdown.convert(html)
+    result.should contain("\\|")
+  end
+
+  it "flattens code blocks in cells to inline code" do
+    html = "<table><tr><th>Code</th><th>Output</th></tr><tr><td><pre><code>hello world</code></pre></td><td>text</td></tr></table>"
+    result = Crhtml2markdown.convert(html)
+    result.should contain("`hello world`")
+    result.should_not contain("```")
+  end
+
+  it "flattens multi-line content in cells to single line" do
+    html = "<table><tr><th>Col</th></tr><tr><td><h2>Title</h2><p>Text</p></td></tr></table>"
+    result = Crhtml2markdown.convert(html)
+    # Each row should be a single line (no newlines within cell content)
+    result.split("\n").each do |line|
+      next if line.strip.empty?
+      line.count("|").should be >= 2 # valid table row
+    end
+  end
 end
