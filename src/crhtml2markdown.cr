@@ -22,6 +22,7 @@ require "./crhtml2markdown/converters/details_converter"
 require "./crhtml2markdown/converters/figure_converter"
 require "./crhtml2markdown/converters/block_container_converter"
 require "./crhtml2markdown/converters/media_converter"
+require "./crhtml2markdown/converters/q_converter"
 
 # TODO: Write documentation for `Crhtml2markdown`
 module Crhtml2markdown
@@ -48,6 +49,7 @@ module Crhtml2markdown
     ParagraphConverter.new,
     EmphasisConverter.new,
     LinkConverter.new,
+    QConverter.new,
     TextConverter.new,
   ]
 

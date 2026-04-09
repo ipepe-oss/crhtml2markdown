@@ -1,12 +1,14 @@
 module Crhtml2markdown
   class CodeConverter < ElementConverter
     def handles?(node : XML::Node) : Bool
-      node.name == "code" || node.name == "pre"
+      node.name == "code" || node.name == "pre" || node.name == "var" || node.name == "samp"
     end
 
     def convert(node : XML::Node, io : IO) : Nil
       if node.name == "pre"
         convert_block(node, io)
+      elsif node.name == "var" || node.name == "samp"
+        convert_inline(node, io)
       else
         convert_inline(node, io)
       end
