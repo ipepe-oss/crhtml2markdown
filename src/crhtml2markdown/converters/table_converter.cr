@@ -13,7 +13,8 @@ module Crhtml2markdown
 
       rows.each_with_index do |row, idx|
         io << "| "
-        row.each_with_index do |cell, col|
+        widths.each_with_index do |_w, col|
+          cell = row[col]? || ""
           io << cell.ljust(widths[col]) << " | "
         end
         io << "\n"
@@ -60,6 +61,9 @@ module Crhtml2markdown
           td.children.each { |child| Crhtml2markdown.convert_node(child, inner) }
         end.strip
         cells << escape_pipes(flatten_cell(text))
+        # Handle colspan by inserting empty cells
+        colspan = (td["colspan"]? || "1").to_i? || 1
+        (colspan - 1).times { cells << "" }
       end
       cells
     end
@@ -97,12 +101,20 @@ module Crhtml2markdown
         if row
           row.children.each do |cell|
             next unless cell.name == "th" || cell.name == "td"
-            alignments << (cell["align"]? || "left")
+            alignments << (cell["align"]? || alignment_from_style(cell) || "left")
           end
           break
         end
       end
       alignments
+    end
+
+    private def alignment_from_style(cell : XML::Node) : String?
+      style = cell["style"]? || return nil
+      if match = style.match(/text-align\s*:\s*(left|center|right|justify)/i)
+        align = match[1].downcase
+        align == "justify" ? "left" : align
+      end
     end
 
     private def column_widths(rows : Array(Array(String))) : Array(Int32)

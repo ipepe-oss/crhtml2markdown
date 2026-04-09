@@ -32,7 +32,12 @@ module Crhtml2markdown
     private def convert_inline(node : XML::Node, io : IO)
       # Only handle inline code (not inside a <pre>)
       return if node.parent.try(&.name) == "pre"
-      io << "`" << node.content << "`"
+      content = node.content
+      if content.includes?('`')
+        io << "`` " << content << " ``"
+      else
+        io << "`" << content << "`"
+      end
     end
   end
 end

@@ -51,7 +51,7 @@ module Crhtml2markdown
             if i == 0
               io << para
             else
-              io << "\n\n" << indent << para
+              write_indented_block(io, para, indent)
             end
           end
           paragraphs.clear
@@ -89,12 +89,24 @@ module Crhtml2markdown
           if i == 0
             io << para
           else
-            io << "\n\n" << indent << para
+            write_indented_block(io, para, indent)
           end
         end
       end
 
       ends_with_sublist
+    end
+
+    # Write a block of text with all lines indented, separated by blank line
+    private def write_indented_block(io : IO, text : String, indent : String) : Nil
+      io << "\n\n"
+      text.each_line(chomp: true) do |line|
+        if line.empty?
+          io << indent << "\n"
+        else
+          io << indent << line << "\n"
+        end
+      end
     end
   end
 end

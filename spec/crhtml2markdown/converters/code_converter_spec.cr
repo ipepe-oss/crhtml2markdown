@@ -25,4 +25,9 @@ describe Crhtml2markdown::CodeConverter do
     html = "<p>Use <code>+</code>, <code>-</code>, or <code>*</code></p>"
     Crhtml2markdown.convert(html).should eq("Use `+`, `-`, or `*`")
   end
+
+  it "uses double backticks when content contains single backtick" do
+    html = "<p><code>a ` b</code></p>"
+    Crhtml2markdown.convert(html).should eq("`` a ` b ``")
+  end
 end

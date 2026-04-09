@@ -65,4 +65,45 @@ describe Crhtml2markdown::TableConverter do
       line.count("|").should be >= 2 # valid table row
     end
   end
+
+  it "preserves center alignment from style attribute" do
+    html = "<table><thead><tr><th>Left</th><th style=\"text-align: center\">Center</th></tr></thead><tbody><tr><td>a</td><td>b</td></tr></tbody></table>"
+    expected = "| Left | Center | \n| ---- | :----: | \n| a    | b      |"
+    Crhtml2markdown.convert(html).should eq(expected)
+  end
+
+  it "preserves right alignment from style attribute" do
+    html = "<table><thead><tr><th style=\"text-align: right\">Price</th></tr></thead><tbody><tr><td style=\"text-align: right\">$10</td></tr></tbody></table>"
+    expected = "| Price | \n| ----: | \n| $10   |"
+    Crhtml2markdown.convert(html).should eq(expected)
+  end
+
+  it "preserves mixed alignments from style and align attributes" do
+    html = "<table><thead><tr><th align=\"left\">A</th><th style=\"text-align:center\">B</th><th style=\"text-align: right\">C</th></tr></thead><tbody><tr><td>1</td><td>2</td><td>3</td></tr></tbody></table>"
+    expected = "| A   | B   | C   | \n| --- | :-: | --: | \n| 1   | 2   | 3   |"
+    Crhtml2markdown.convert(html).should eq(expected)
+  end
+
+  it "treats justify alignment as left" do
+    html = "<table><thead><tr><th style=\"text-align: justify\">Col</th></tr></thead><tbody><tr><td>a</td></tr></tbody></table>"
+    expected = "| Col | \n| --- | \n| a   |"
+    Crhtml2markdown.convert(html).should eq(expected)
+  end
+
+  it "pads rows with fewer cells than header" do
+    html = "<table><thead><tr><th>A</th><th>B</th><th>C</th></tr></thead><tbody><tr><td>1</td></tr></tbody></table>"
+    expected = "| A   | B   | C   | \n| --- | --- | --- | \n| 1   |     |     |"
+    Crhtml2markdown.convert(html).should eq(expected)
+  end
+
+  it "handles colspan by inserting empty cells" do
+    html = "<table><thead><tr><th>A</th><th>B</th><th>C</th></tr></thead><tbody><tr><td colspan=\"2\">Merged</td><td>D</td></tr></tbody></table>"
+    result = Crhtml2markdown.convert(html)
+    result.should contain("| Merged |     | D   |")
+    # Should have 3 columns in all rows
+    result.split("\n").each do |line|
+      next if line.strip.empty?
+      line.count("|").should eq(4) # 3 cells = 4 pipes
+    end
+  end
 end
