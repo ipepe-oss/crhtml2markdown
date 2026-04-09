@@ -6,13 +6,35 @@ require "./crhtml2markdown/converters/paragraph_converter"
 require "./crhtml2markdown/converters/emphasis_converter"
 require "./crhtml2markdown/converters/link_converter"
 require "./crhtml2markdown/converters/text_converter"
+require "./crhtml2markdown/converters/code_converter"
+require "./crhtml2markdown/converters/horizontal_rule_converter"
+require "./crhtml2markdown/converters/list_converter"
+require "./crhtml2markdown/converters/blockquote_converter"
+require "./crhtml2markdown/converters/image_converter"
+require "./crhtml2markdown/converters/strikethrough_converter"
+require "./crhtml2markdown/converters/table_converter"
+require "./crhtml2markdown/converters/line_break_converter"
+require "./crhtml2markdown/converters/checkbox_converter"
+require "./crhtml2markdown/converters/definition_list_converter"
+require "./crhtml2markdown/converters/sub_sup_converter"
 
 # TODO: Write documentation for `Crhtml2markdown`
 module Crhtml2markdown
   VERSION = "0.1.0"
 
   @@converters = [
+    CodeConverter.new,
     HeadingConverter.new,
+    HorizontalRuleConverter.new,
+    TableConverter.new,
+    ListConverter.new,
+    BlockquoteConverter.new,
+    ImageConverter.new,
+    CheckboxConverter.new,
+    LineBreakConverter.new,
+    DefinitionListConverter.new,
+    SubSupConverter.new,
+    StrikethroughConverter.new,
     ParagraphConverter.new,
     EmphasisConverter.new,
     LinkConverter.new,

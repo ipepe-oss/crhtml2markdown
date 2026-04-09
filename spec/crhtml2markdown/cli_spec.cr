@@ -1,8 +1,8 @@
-require "./spec_helper"
+require "../spec_helper"
 
 private def run_cli(args : Array(String), input = "")
   output = IO::Memory.new
-  Process.run("#{__DIR__}/../bin/crhtml2markdown", args, input: IO::Memory.new(input), output: output)
+  Process.run("#{__DIR__}/../../bin/crhtml2markdown", args, input: IO::Memory.new(input), output: output)
   output.to_s
 end
 
