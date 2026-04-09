@@ -37,6 +37,8 @@ require "./crhtml2markdown/converters/bidi_converter"
 require "./crhtml2markdown/converters/ruby_converter"
 require "./crhtml2markdown/converters/address_converter"
 require "./crhtml2markdown/converters/template_converter"
+require "./crhtml2markdown/converters/acronym_converter"
+require "./crhtml2markdown/converters/wbr_converter"
 
 # TODO: Write documentation for `Crhtml2markdown`
 module Crhtml2markdown
@@ -44,6 +46,8 @@ module Crhtml2markdown
 
   @@converters = [
     TemplateConverter.new,
+    AcronymConverter.new,
+    WbrConverter.new,
     CodeConverter.new,
     HeadingConverter.new,
     HorizontalRuleConverter.new,

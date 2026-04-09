@@ -1,11 +1,12 @@
 require "../../spec_helper"
 
 describe Crhtml2markdown::InlineHtmlPassthroughConverter do
-  it "passes through <wbr> tags" do
-    html = "<p>Supercali<wbr>fragilistic<wbr>expialidocious</p>"
-    result = Crhtml2markdown.convert(html)
-    result.should contain("<wbr>")
-  end
+  # Note: wbr tags are now handled by WbrConverter
+  # it "passes through <wbr> tags" do
+  #   html = "<p>Supercali<wbr>fragilistic<wbr>expialidocious</p>"
+  #   result = Crhtml2markdown.convert(html)
+  #   result.should contain("<wbr>")
+  # end
 
   # Note: rt and rp tags are handled by RubyConverter
   # it "passes through <rt> tags" do
@@ -20,9 +21,10 @@ describe Crhtml2markdown::InlineHtmlPassthroughConverter do
   #   result.should contain("<rp>")
   # end
 
-  it "passes through <acronym> tags" do
-    html = "<p><acronym title=\"Application Programming Interface\">API</acronym></p>"
-    result = Crhtml2markdown.convert(html)
-    result.should contain("<acronym")
-  end
+  # Note: acronym tags are now handled by AcronymConverter
+  # it "passes through <acronym> tags" do
+  #   html = "<p><acronym title=\"Application Programming Interface\">API</acronym></p>"
+  #   result = Crhtml2markdown.convert(html)
+  #   result.should contain("<acronym")
+  # end
 end
