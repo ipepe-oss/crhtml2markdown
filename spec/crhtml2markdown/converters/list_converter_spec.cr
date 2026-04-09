@@ -25,4 +25,19 @@ describe Crhtml2markdown::ListConverter do
     html = "<ul><li>Text with <strong>bold</strong> and <code>code</code></li></ul>"
     Crhtml2markdown.convert(html).should eq("- Text with **bold** and `code`")
   end
+
+  it "handles ordered list with start attribute" do
+    html = "<ol start=\"5\"><li>Five</li><li>Six</li><li>Seven</li></ol>"
+    Crhtml2markdown.convert(html).should eq("5. Five\n6. Six\n7. Seven")
+  end
+
+  it "handles multi-paragraph list items" do
+    html = "<ul><li><p>First paragraph.</p><p>Second paragraph.</p></li><li><p>Another item.</p></li></ul>"
+    Crhtml2markdown.convert(html).should eq("- First paragraph.\n\n    Second paragraph.\n- Another item.")
+  end
+
+  it "handles mixed list types (ol inside ul)" do
+    html = "<ul><li>Unordered<ol><li>Ordered 1</li><li>Ordered 2</li></ol></li></ul>"
+    Crhtml2markdown.convert(html).should eq("- Unordered\n    1. Ordered 1\n    2. Ordered 2")
+  end
 end

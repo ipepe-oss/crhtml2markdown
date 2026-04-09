@@ -20,6 +20,8 @@ require "./crhtml2markdown/converters/sub_sup_converter"
 require "./crhtml2markdown/converters/inline_html_passthrough_converter"
 require "./crhtml2markdown/converters/details_converter"
 require "./crhtml2markdown/converters/figure_converter"
+require "./crhtml2markdown/converters/block_container_converter"
+require "./crhtml2markdown/converters/media_converter"
 
 # TODO: Write documentation for `Crhtml2markdown`
 module Crhtml2markdown
@@ -40,6 +42,8 @@ module Crhtml2markdown
     InlineHtmlPassthroughConverter.new,
     DetailsConverter.new,
     FigureConverter.new,
+    MediaConverter.new,
+    BlockContainerConverter.new,
     StrikethroughConverter.new,
     ParagraphConverter.new,
     EmphasisConverter.new,

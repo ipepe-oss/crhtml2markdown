@@ -8,7 +8,9 @@ module Crhtml2markdown
       level = heading_level(node.name)
       return unless level
 
-      text = node.content.strip
+      text = String.build do |inner|
+        node.children.each { |child| Crhtml2markdown.convert_node(child, inner) }
+      end.strip
       io << "#" * level << " " << text << "\n\n"
     end
 
