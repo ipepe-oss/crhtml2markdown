@@ -1,38 +1,28 @@
 require "../../spec_helper"
 
 describe Crhtml2markdown::InlineHtmlPassthroughConverter do
-  it "passes through <mark> tags" do
-    html = "<p><mark>highlighted text</mark></p>"
-    Crhtml2markdown.convert(html).should eq("<mark>highlighted text</mark>")
+  it "passes through <wbr> tags" do
+    html = "<p>Supercali<wbr>fragilistic<wbr>expialidocious</p>"
+    result = Crhtml2markdown.convert(html)
+    result.should contain("<wbr>")
   end
 
-  it "passes through <kbd> tags" do
-    html = "<p>Press <kbd>Ctrl</kbd> + <kbd>C</kbd></p>"
-    Crhtml2markdown.convert(html).should eq("Press <kbd>Ctrl</kbd> + <kbd>C</kbd>")
-  end
+  # Note: rt and rp tags are handled by RubyConverter
+  # it "passes through <rt> tags" do
+  #   html = "<ruby>漢<rt>kan</rt></ruby>"
+  #   result = Crhtml2markdown.convert(html)
+  #   result.should contain("<rt>")
+  # end
 
-  it "passes through <ins> tags" do
-    html = "<p><ins>inserted text</ins></p>"
-    Crhtml2markdown.convert(html).should eq("<ins>inserted text</ins>")
-  end
+  # it "passes through <rp> tags" do
+  #   html = "<ruby>漢<rp>(</rp><rt>kan</rt><rp>)</rp></ruby>"
+  #   result = Crhtml2markdown.convert(html)
+  #   result.should contain("<rp>")
+  # end
 
-  it "passes through <u> tags" do
-    html = "<p><u>underlined text</u></p>"
-    Crhtml2markdown.convert(html).should eq("<u>underlined text</u>")
-  end
-
-  it "passes through <small> tags" do
-    html = "<p><small>small text</small></p>"
-    Crhtml2markdown.convert(html).should eq("<small>small text</small>")
-  end
-
-  it "passes through <abbr> with title attribute" do
-    html = "<p><abbr title=\"Hyper Text Markup Language\">HTML</abbr></p>"
-    Crhtml2markdown.convert(html).should eq("<abbr title=\"Hyper Text Markup Language\">HTML</abbr>")
-  end
-
-  it "converts inline markdown inside passthrough tags" do
-    html = "<p><mark><strong>bold highlighted</strong></mark></p>"
-    Crhtml2markdown.convert(html).should eq("<mark>**bold highlighted**</mark>")
+  it "passes through <acronym> tags" do
+    html = "<p><acronym title=\"Application Programming Interface\">API</acronym></p>"
+    result = Crhtml2markdown.convert(html)
+    result.should contain("<acronym")
   end
 end

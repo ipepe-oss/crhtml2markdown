@@ -1,26 +1,10 @@
 module Crhtml2markdown
   class InlineHtmlPassthroughConverter < ElementConverter
     PASSTHROUGH_TAGS = Set{
-      "mark",     # Highlighted text
-      "kbd",      # Keyboard input
-      "ins",      # Inserted text
-      "u",        # Underlined text
-      "small",    # Small text
-      "abbr",     # Abbreviation
-      "cite",     # Citation
-      "dfn",      # Definition term
-      "bdo",      # Bi-directional override
-      "bdi",      # Bi-directional isolation
-      "wbr",      # Word break opportunity
-      "ruby",     # Ruby annotation
-      "rt",       # Ruby text
-      "rp",       # Ruby parenthesis
-      "data",     # Machine-readable data
-      "time",     # Date/time
-      "output",   # Output element
-      "progress", # Progress bar
-      "meter",    # Meter/gauge
-      "acronym",  # Acronym (deprecated but still used)
+      "wbr",     # Word break opportunity
+      "rt",      # Ruby text
+      "rp",      # Ruby parenthesis
+      "acronym", # Acronym (deprecated but still used)
     }
 
     def handles?(node : XML::Node) : Bool

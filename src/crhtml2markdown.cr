@@ -23,12 +23,27 @@ require "./crhtml2markdown/converters/figure_converter"
 require "./crhtml2markdown/converters/block_container_converter"
 require "./crhtml2markdown/converters/media_converter"
 require "./crhtml2markdown/converters/q_converter"
+require "./crhtml2markdown/converters/kbd_converter"
+require "./crhtml2markdown/converters/mark_converter"
+require "./crhtml2markdown/converters/ins_converter"
+require "./crhtml2markdown/converters/cite_dfn_converter"
+require "./crhtml2markdown/converters/abbr_converter"
+require "./crhtml2markdown/converters/small_converter"
+require "./crhtml2markdown/converters/underline_converter"
+require "./crhtml2markdown/converters/time_data_converter"
+require "./crhtml2markdown/converters/progress_meter_converter"
+require "./crhtml2markdown/converters/output_converter"
+require "./crhtml2markdown/converters/bidi_converter"
+require "./crhtml2markdown/converters/ruby_converter"
+require "./crhtml2markdown/converters/address_converter"
+require "./crhtml2markdown/converters/template_converter"
 
 # TODO: Write documentation for `Crhtml2markdown`
 module Crhtml2markdown
   VERSION = "0.1.0"
 
   @@converters = [
+    TemplateConverter.new,
     CodeConverter.new,
     HeadingConverter.new,
     HorizontalRuleConverter.new,
@@ -44,12 +59,25 @@ module Crhtml2markdown
     DetailsConverter.new,
     FigureConverter.new,
     MediaConverter.new,
+    AddressConverter.new,
     BlockContainerConverter.new,
     StrikethroughConverter.new,
     ParagraphConverter.new,
     EmphasisConverter.new,
     LinkConverter.new,
     QConverter.new,
+    KbdConverter.new,
+    MarkConverter.new,
+    InsConverter.new,
+    CiteDfnConverter.new,
+    AbbrConverter.new,
+    SmallConverter.new,
+    UnderlineConverter.new,
+    TimeDataConverter.new,
+    ProgressMeterConverter.new,
+    OutputConverter.new,
+    BidiConverter.new,
+    RubyConverter.new,
     TextConverter.new,
   ]
 
