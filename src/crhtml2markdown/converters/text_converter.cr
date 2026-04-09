@@ -9,7 +9,16 @@ module Crhtml2markdown
     def convert(node : XML::Node, io : IO) : Nil
       text = node.content
       return if text.strip.empty? && !inline_context?(node)
-      io << text unless text.strip.empty? && text.includes?("\n")
+      if text.strip.empty? && text.includes?("\n")
+        # In inline context, preserve a single space between siblings
+        io << " " if inline_context?(node) && has_adjacent_siblings?(node)
+      else
+        io << text
+      end
+    end
+
+    private def has_adjacent_siblings?(node : XML::Node) : Bool
+      !!(node.previous_sibling && node.next_sibling)
     end
 
     private def inline_context?(node : XML::Node) : Bool

@@ -64,11 +64,32 @@ module Crhtml2markdown
     end.strip
   end
 
+  BLOCK_ELEMENTS = Set{
+    "p", "pre", "h1", "h2", "h3", "h4", "h5", "h6", "hr",
+    "ul", "ol", "blockquote", "table", "dl", "details", "figure",
+    "div", "section", "article", "nav", "header", "footer",
+    "main", "aside", "address", "video", "audio",
+  }
+
   def self.convert_node(node : XML::Node, io : IO)
     if converter = @@converters.find(&.handles?(node))
       converter.convert(node, io)
     else
-      node.children.each { |child| convert_node child, io }
+      prev_was_inline = false
+      node.children.each do |child|
+        # Add spacing before block elements when preceded by an inline sibling
+        if BLOCK_ELEMENTS.includes?(child.name) && prev_was_inline
+          io << "\n\n"
+        end
+        convert_node child, io
+        if child.text?
+          prev_was_inline = !child.content.strip.empty?
+        elsif BLOCK_ELEMENTS.includes?(child.name)
+          prev_was_inline = false
+        else
+          prev_was_inline = true
+        end
+      end
     end
   end
 end

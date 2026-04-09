@@ -33,4 +33,16 @@ describe Crhtml2markdown do
     html = "<p>Visit <a href='https://example.com'>Example</a>.</p>"
     Crhtml2markdown.convert(html).should eq("Visit [Example](https://example.com).")
   end
+
+  it "adds spacing between inline and block siblings" do
+    html = "<a href=\"http://example.com\"><img src=\"img.jpg\" alt=\"badge\"></a><pre><code>code</code></pre>"
+    result = Crhtml2markdown.convert(html)
+    result.should contain("](http://example.com)\n\n```")
+  end
+
+  it "preserves spacing between adjacent inline elements in paragraphs" do
+    html = "<p><img src=\"a.png\" alt=\"A\">\n<img src=\"b.png\" alt=\"B\"></p>"
+    result = Crhtml2markdown.convert(html)
+    result.should contain("![A](a.png) ![B](b.png)")
+  end
 end

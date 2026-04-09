@@ -59,9 +59,13 @@ module Crhtml2markdown
         text = String.build do |inner|
           td.children.each { |child| Crhtml2markdown.convert_node(child, inner) }
         end.strip
-        cells << text
+        cells << escape_pipes(text)
       end
       cells
+    end
+
+    private def escape_pipes(text : String) : String
+      text.gsub("|", "\\|")
     end
 
     private def collect_alignments(table : XML::Node) : Array(String)

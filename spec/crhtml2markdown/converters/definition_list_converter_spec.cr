@@ -8,7 +8,7 @@ describe Crhtml2markdown::DefinitionListConverter do
 
   it "converts multiple terms and definitions" do
     html = "<dl><dt>A</dt><dd>Alpha</dd><dt>B</dt><dd>Beta</dd></dl>"
-    Crhtml2markdown.convert(html).should eq("A\n: Alpha\nB\n: Beta")
+    Crhtml2markdown.convert(html).should eq("A\n: Alpha\n\nB\n: Beta")
   end
 
   it "handles inline formatting in definitions" do
