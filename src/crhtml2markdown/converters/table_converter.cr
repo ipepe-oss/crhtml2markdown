@@ -8,6 +8,7 @@ module Crhtml2markdown
       rows = collect_rows(node)
       return if rows.empty?
 
+      alignments = collect_alignments(node)
       widths = column_widths(rows)
 
       rows.each_with_index do |row, idx|
@@ -19,8 +20,16 @@ module Crhtml2markdown
 
         if idx == 0
           io << "| "
-          widths.each do |w|
-            io << "-" * w << " | "
+          widths.each_with_index do |w, col|
+            align = alignments[col]? || "left"
+            case align
+            when "center"
+              io << ":" << "-" * (w - 2) << ":" << " | "
+            when "right"
+              io << "-" * (w - 1) << ":" << " | "
+            else
+              io << "-" * w << " | "
+            end
           end
           io << "\n"
         end
@@ -53,6 +62,33 @@ module Crhtml2markdown
         cells << text
       end
       cells
+    end
+
+    private def collect_alignments(table : XML::Node) : Array(String)
+      alignments = [] of String
+      # Look for alignment in the first row (thead > tr > th/td)
+      table.children.each do |child|
+        row = nil
+        case child.name
+        when "thead"
+          child.children.each do |tr|
+            if tr.name == "tr"
+              row = tr
+              break
+            end
+          end
+        when "tr"
+          row = child
+        end
+        if row
+          row.children.each do |cell|
+            next unless cell.name == "th" || cell.name == "td"
+            alignments << (cell["align"]? || "left")
+          end
+          break
+        end
+      end
+      alignments
     end
 
     private def column_widths(rows : Array(Array(String))) : Array(Int32)

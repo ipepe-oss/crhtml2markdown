@@ -9,7 +9,11 @@ module Crhtml2markdown
       text = String.build do |inner|
         node.children.each { |child| Crhtml2markdown.convert_node(child, inner) }
       end
-      io << "[" << text << "](#{href})"
+      if title = node["title"]?
+        io << "[" << text << "](#{href} \"#{title}\")"
+      else
+        io << "[" << text << "](#{href})"
+      end
     end
   end
 end

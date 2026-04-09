@@ -24,4 +24,22 @@ describe Crhtml2markdown::TableConverter do
     expected = "| A   | B   | \n| --- | --- | \n| 1   | 2   |"
     Crhtml2markdown.convert(html).should eq(expected)
   end
+
+  it "preserves center alignment" do
+    html = "<table><thead><tr><th>Left</th><th align=\"center\">Center</th></tr></thead><tbody><tr><td>a</td><td align=\"center\">b</td></tr></tbody></table>"
+    expected = "| Left | Center | \n| ---- | :----: | \n| a    | b      |"
+    Crhtml2markdown.convert(html).should eq(expected)
+  end
+
+  it "preserves right alignment" do
+    html = "<table><thead><tr><th>Name</th><th align=\"right\">Price</th></tr></thead><tbody><tr><td>Item</td><td align=\"right\">$10</td></tr></tbody></table>"
+    expected = "| Name | Price | \n| ---- | ----: | \n| Item | $10   |"
+    Crhtml2markdown.convert(html).should eq(expected)
+  end
+
+  it "preserves mixed alignments" do
+    html = "<table><thead><tr><th align=\"left\">Left</th><th align=\"center\">Center</th><th align=\"right\">Right</th></tr></thead><tbody><tr><td>a</td><td>b</td><td>c</td></tr></tbody></table>"
+    expected = "| Left | Center | Right | \n| ---- | :----: | ----: | \n| a    | b      | c     |"
+    Crhtml2markdown.convert(html).should eq(expected)
+  end
 end

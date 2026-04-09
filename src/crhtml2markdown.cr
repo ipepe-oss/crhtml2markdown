@@ -17,6 +17,9 @@ require "./crhtml2markdown/converters/line_break_converter"
 require "./crhtml2markdown/converters/checkbox_converter"
 require "./crhtml2markdown/converters/definition_list_converter"
 require "./crhtml2markdown/converters/sub_sup_converter"
+require "./crhtml2markdown/converters/inline_html_passthrough_converter"
+require "./crhtml2markdown/converters/details_converter"
+require "./crhtml2markdown/converters/figure_converter"
 
 # TODO: Write documentation for `Crhtml2markdown`
 module Crhtml2markdown
@@ -34,6 +37,9 @@ module Crhtml2markdown
     LineBreakConverter.new,
     DefinitionListConverter.new,
     SubSupConverter.new,
+    InlineHtmlPassthroughConverter.new,
+    DetailsConverter.new,
+    FigureConverter.new,
     StrikethroughConverter.new,
     ParagraphConverter.new,
     EmphasisConverter.new,

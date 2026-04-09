@@ -10,4 +10,14 @@ describe Crhtml2markdown::LinkConverter do
     html = "<a href=\"https://example.com\"><strong>Bold Link</strong></a>"
     Crhtml2markdown.convert(html).should eq("[**Bold Link**](https://example.com)")
   end
+
+  it "includes title attribute when present" do
+    html = "<a href=\"https://www.google.com\" title=\"Google's Homepage\">Google</a>"
+    Crhtml2markdown.convert(html).should eq("[Google](https://www.google.com \"Google's Homepage\")")
+  end
+
+  it "omits title when not present" do
+    html = "<a href=\"https://example.com\">Example</a>"
+    Crhtml2markdown.convert(html).should eq("[Example](https://example.com)")
+  end
 end
