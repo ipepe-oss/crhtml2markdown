@@ -2,16 +2,16 @@ require "../../spec_helper"
 
 module Crhtml2markdown
   describe SmallConverter do
-    it "converts small elements to plain text" do
+    it "passes through small elements as HTML" do
       html = "<p><small>Small text</small></p>"
       result = convert(html)
-      result.should contain("Small text")
+      result.should contain("<small>Small text</small>")
     end
 
     it "handles nested content" do
       html = "<small>tiny</small>"
       result = convert(html)
-      result.should eq("tiny")
+      result.should eq("<small>tiny</small>")
     end
   end
 end

@@ -5,9 +5,10 @@ module Crhtml2markdown
     end
 
     def convert(node : XML::Node, io : IO) : Nil
-      # Convert <u> to just the text (markdown has no underline equivalent)
-      # Note: Some implementations use __text__ for underline, but this conflicts with bold
+      # Pass through as HTML since markdown has no underline equivalent
+      io << "<u>"
       node.children.each { |child| Crhtml2markdown.convert_node(child, io) }
+      io << "</u>"
     end
   end
 end

@@ -5,10 +5,9 @@ module Crhtml2markdown
     end
 
     def convert(node : XML::Node, io : IO) : Nil
-      # Convert <q> to quoted text with curly quotes
-      io << "「"
+      io << "\""
       node.children.each { |child| Crhtml2markdown.convert_node(child, io) }
-      io << "」"
+      io << "\""
     end
   end
 end

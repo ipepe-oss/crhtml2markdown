@@ -5,14 +5,9 @@ module Crhtml2markdown
     end
 
     def convert(node : XML::Node, io : IO) : Nil
-      # Convert address to a code block or preformatted text
-      # to preserve the formatting
-      content = String.build do |content_io|
-        node.children.each { |child| Crhtml2markdown.convert_node(child, content_io) }
-      end
-
-      # Use a simple code block format
-      io << "```\n" << content.strip << "\n```"
+      io << "\n"
+      node.children.each { |child| Crhtml2markdown.convert_node(child, io) }
+      io << "\n"
     end
   end
 end
