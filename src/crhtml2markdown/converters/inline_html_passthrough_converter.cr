@@ -14,7 +14,8 @@ module Crhtml2markdown
     def convert(node : XML::Node, io : IO) : Nil
       io << "<" << node.name
       node.attributes.each do |attr|
-        io << " " << attr.name << "=\"" << attr.content << "\""
+        escaped_content = attr.content.gsub('"', "&quot;")
+        io << " " << attr.name << "=\"" << escaped_content << "\""
       end
       io << ">"
       node.children.each { |child| Crhtml2markdown.convert_node(child, io) }
