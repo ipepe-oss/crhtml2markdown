@@ -38,6 +38,7 @@ module Crhtml2markdown
       paragraphs = [] of String
       buffer = IO::Memory.new
       has_sublists = false
+      first_output = true
 
       node.children.each do |child|
         if child.name == "ul" || child.name == "ol"
@@ -48,8 +49,9 @@ module Crhtml2markdown
 
           # Write paragraphs collected so far
           paragraphs.each_with_index do |para, i|
-            if i == 0
+            if i == 0 && first_output
               io << para
+              first_output = false
             else
               write_indented_block(io, para, indent)
             end
@@ -60,6 +62,7 @@ module Crhtml2markdown
           convert_list(child, io, depth + 1)
           ends_with_sublist = true
           has_sublists = true
+          first_output = false
         elsif child.name == "p"
           # Flush any non-paragraph buffer content first
           text = buffer.to_s.strip
@@ -71,6 +74,29 @@ module Crhtml2markdown
             child.children.each { |c| Crhtml2markdown.convert_node(c, inner) }
           end.strip
           paragraphs << para_text unless para_text.empty?
+        elsif child.name == "blockquote" || child.name == "pre"
+          # Flush buffer as a paragraph first
+          text = buffer.to_s.strip
+          paragraphs << text unless text.empty?
+          buffer.clear
+
+          # Write paragraphs collected so far
+          paragraphs.each_with_index do |para, i|
+            if i == 0 && first_output
+              io << para
+              first_output = false
+            else
+              write_indented_block(io, para, indent)
+            end
+          end
+          paragraphs.clear
+
+          # Handle block element with indentation
+          block_content = String.build do |inner|
+            Crhtml2markdown.convert_node(child, inner)
+          end
+          write_indented_block(io, block_content.strip, indent)
+          ends_with_sublist = false
         else
           Crhtml2markdown.convert_node(child, buffer)
           unless child.text? && child.content.strip.empty?
@@ -86,7 +112,7 @@ module Crhtml2markdown
       # Write remaining paragraphs
       unless has_sublists && paragraphs.empty?
         paragraphs.each_with_index do |para, i|
-          if i == 0
+          if i == 0 && first_output
             io << para
           else
             write_indented_block(io, para, indent)
