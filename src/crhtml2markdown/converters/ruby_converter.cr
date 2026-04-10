@@ -30,6 +30,9 @@ module Crhtml2markdown
         elsif child.element? && child.name == "rt"
           # Standalone rt without preceding rb
           io << "(" << child.content.strip << ")"
+        elsif child.element? && child.name == "rp"
+          # Ignore rp (ruby parenthesis) elements - they're just fallback text
+          # for browsers that don't support ruby annotations
         end
 
         i += 1
