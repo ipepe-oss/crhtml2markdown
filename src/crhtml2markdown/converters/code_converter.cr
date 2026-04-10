@@ -33,6 +33,12 @@ module Crhtml2markdown
       # Only handle inline code (not inside a <pre>)
       return if node.parent.try(&.name) == "pre"
       content = node.content
+
+      # Inline code should not contain newlines - convert to spaces
+      if content.includes?('\n')
+        content = content.gsub(/\s*\n\s*/, ' ').strip
+      end
+
       if content.includes?('`')
         io << "`` " << content << " ``"
       else
