@@ -10,7 +10,7 @@ module Crhtml2markdown
         node.children.each { |child| Crhtml2markdown.convert_node(child, inner) }
       end
       if title = node["title"]?
-        escaped_title = title.gsub('"', "&quot;")
+        escaped_title = title.gsub('"', "\\\"")
         io << "[" << text << "](#{href} \"#{escaped_title}\")"
       else
         io << "[" << text << "](#{href})"

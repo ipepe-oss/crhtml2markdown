@@ -10,7 +10,8 @@ module Crhtml2markdown
       title = node["title"]?
       io << "![" << alt << "](" << src
       if title
-        io << " \"" << title << "\""
+        escaped_title = title.gsub('"', "\\\"")
+        io << " \"" << escaped_title << "\""
       end
       io << ")"
     end

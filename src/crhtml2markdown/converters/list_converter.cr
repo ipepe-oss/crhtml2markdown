@@ -21,7 +21,7 @@ module Crhtml2markdown
               end
       node.children.each do |child|
         next unless child.name == "li"
-        indent = "    " * depth
+        indent = "  " * depth
         marker = ordered ? "#{index}." : "-"
         io << indent << marker << " "
         ends_with_sublist = convert_li_content(child, io, depth)
@@ -32,7 +32,7 @@ module Crhtml2markdown
 
     private def convert_li_content(node : XML::Node, io : IO, depth : Int32) : Bool
       ends_with_sublist = false
-      indent = "    " * (depth + 1)
+      indent = "  " * (depth + 1)
 
       # Collect paragraphs and other block children
       paragraphs = [] of String

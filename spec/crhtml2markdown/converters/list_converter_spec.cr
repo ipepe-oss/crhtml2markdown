@@ -13,12 +13,12 @@ describe Crhtml2markdown::ListConverter do
 
   it "converts nested lists" do
     html = "<ol><li>Parent<ul><li>Child</li></ul></li><li>Second</li></ol>"
-    Crhtml2markdown.convert(html).should eq("1. Parent\n    - Child\n2. Second")
+    Crhtml2markdown.convert(html).should eq("1. Parent\n  - Child\n2. Second")
   end
 
   it "converts deeply nested lists" do
     html = "<ul><li>A<ul><li>B<ul><li>C</li></ul></li></ul></li></ul>"
-    Crhtml2markdown.convert(html).should eq("- A\n    - B\n        - C")
+    Crhtml2markdown.convert(html).should eq("- A\n  - B\n    - C")
   end
 
   it "handles list items with inline elements" do
@@ -33,27 +33,27 @@ describe Crhtml2markdown::ListConverter do
 
   it "handles multi-paragraph list items" do
     html = "<ul><li><p>First paragraph.</p><p>Second paragraph.</p></li><li><p>Another item.</p></li></ul>"
-    Crhtml2markdown.convert(html).should eq("- First paragraph.\n\n    Second paragraph.\n\n- Another item.")
+    Crhtml2markdown.convert(html).should eq("- First paragraph.\n\n  Second paragraph.\n\n- Another item.")
   end
 
   it "handles mixed list types (ol inside ul)" do
     html = "<ul><li>Unordered<ol><li>Ordered 1</li><li>Ordered 2</li></ol></li></ul>"
-    Crhtml2markdown.convert(html).should eq("- Unordered\n    1. Ordered 1\n    2. Ordered 2")
+    Crhtml2markdown.convert(html).should eq("- Unordered\n  1. Ordered 1\n  2. Ordered 2")
   end
 
   it "indents code blocks inside list items" do
     html = "<ol><li><p>Item with code:</p><pre><code>some code\n</code></pre></li><li><p>Next item</p></li></ol>"
     result = Crhtml2markdown.convert(html)
-    result.should contain("    ```")
+    result.should contain("  ```")
     lines = result.split("\n")
     # All code block lines should be indented within the list
     in_code = false
     lines.each do |line|
       if line.includes?("```")
         in_code = !in_code
-        line.should start_with("    ")
+        line.should start_with("  ")
       elsif in_code
-        line.should start_with("    ")
+        line.should start_with("  ")
       end
     end
   end
@@ -61,6 +61,6 @@ describe Crhtml2markdown::ListConverter do
   it "indents blockquotes inside list items" do
     html = "<ol><li><p>Item with quote:</p><blockquote><p>Quoted text</p></blockquote></li></ol>"
     result = Crhtml2markdown.convert(html)
-    result.should contain("    > Quoted text")
+    result.should contain("  > Quoted text")
   end
 end
