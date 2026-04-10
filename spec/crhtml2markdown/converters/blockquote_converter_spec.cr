@@ -13,6 +13,6 @@ describe Crhtml2markdown::BlockquoteConverter do
 
   it "converts nested blockquotes" do
     html = "<blockquote><p>Outer</p><blockquote><p>Inner</p></blockquote></blockquote>"
-    Crhtml2markdown.convert(html).should eq("> Outer\n> \n> > Inner")
+    Crhtml2markdown.convert(html).should eq("> Outer\n>\n> > Inner")
   end
 end

@@ -8,10 +8,14 @@ module Crhtml2markdown
       inner = String.build do |inner_io|
         node.children.each { |child| Crhtml2markdown.convert_node(child, inner_io) }
       end.strip
-      inner.each_line(chomp: false) do |line|
-        io << "> " << line
+      inner.each_line do |line|
+        if line.empty?
+          io << ">\n"
+        else
+          io << "> " << line << "\n"
+        end
       end
-      io << "\n\n"
+      io << "\n"
     end
   end
 end
