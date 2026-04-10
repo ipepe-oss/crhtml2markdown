@@ -20,4 +20,9 @@ describe Crhtml2markdown::LinkConverter do
     html = "<a href=\"https://example.com\">Example</a>"
     Crhtml2markdown.convert(html).should eq("[Example](https://example.com)")
   end
+
+  it "escapes double quotes in link title" do
+    html = %(<a href="https://example.com" title="Say &quot;hello&quot;">Link</a>)
+    Crhtml2markdown.convert(html).should eq(%([Link](https://example.com "Say &quot;hello&quot;")))
+  end
 end

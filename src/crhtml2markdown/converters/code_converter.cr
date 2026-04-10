@@ -23,10 +23,27 @@ module Crhtml2markdown
         end
       end
       content = code_node.content
-      io << "```" << language << "\n"
+      fence = fence_for(content)
+      io << fence << language << "\n"
       io << content
       io << "\n" unless content.ends_with?("\n")
-      io << "```\n\n"
+      io << fence << "\n\n"
+    end
+
+    # Returns the shortest backtick fence that won't conflict with the content.
+    # Per CommonMark spec, the fence must be longer than any backtick run in the content.
+    private def fence_for(content : String) : String
+      max_run = 0
+      run = 0
+      content.each_char do |c|
+        if c == '`'
+          run += 1
+          max_run = run if run > max_run
+        else
+          run = 0
+        end
+      end
+      "`" * {3, max_run + 1}.max
     end
 
     private def convert_inline(node : XML::Node, io : IO)

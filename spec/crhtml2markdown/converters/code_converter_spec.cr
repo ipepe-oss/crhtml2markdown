@@ -30,4 +30,19 @@ describe Crhtml2markdown::CodeConverter do
     html = "<p><code>a ` b</code></p>"
     Crhtml2markdown.convert(html).should eq("`` a ` b ``")
   end
+
+  it "uses 4-backtick fence when code block contains triple backticks" do
+    html = "<pre><code>before ``` after</code></pre>"
+    Crhtml2markdown.convert(html).should eq("````\nbefore ``` after\n````")
+  end
+
+  it "uses 5-backtick fence when code block contains 4 backticks" do
+    html = "<pre><code>before ```` after</code></pre>"
+    Crhtml2markdown.convert(html).should eq("`````\nbefore ```` after\n`````")
+  end
+
+  it "uses standard 3-backtick fence when code has no backticks" do
+    html = "<pre><code>no backticks here</code></pre>"
+    Crhtml2markdown.convert(html).should eq("```\nno backticks here\n```")
+  end
 end
