@@ -60,17 +60,28 @@ module Crhtml2markdown
           convert_list(child, io, depth + 1)
           ends_with_sublist = true
           has_sublists = true
-        elsif child.name == "p"
+        elsif child.name == "p" || child.name == "pre" || child.name == "blockquote"
+          # Handle paragraphs and block-level elements that need indentation
           # Flush any non-paragraph buffer content first
           text = buffer.to_s.strip
           paragraphs << text unless text.empty?
           buffer.clear
 
-          # Convert paragraph content (without the trailing \n\n from ParagraphConverter)
-          para_text = String.build do |inner|
-            child.children.each { |c| Crhtml2markdown.convert_node(c, inner) }
-          end.strip
-          paragraphs << para_text unless para_text.empty?
+          # For block elements like pre and blockquote, convert the whole element
+          # to preserve formatting (newlines, indentation, etc.)
+          block_text = if child.name == "p"
+            # Paragraphs should be stripped
+            String.build do |inner|
+              child.children.each { |c| Crhtml2markdown.convert_node(c, inner) }
+            end.strip
+          else
+            # Pre and blockquote need full formatting
+            String.build do |inner|
+              Crhtml2markdown.convert_node(child, inner)
+            end.rstrip
+          end
+
+          paragraphs << block_text unless block_text.empty?
         else
           Crhtml2markdown.convert_node(child, buffer)
           unless child.text? && child.content.strip.empty?

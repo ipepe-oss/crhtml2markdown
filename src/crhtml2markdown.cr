@@ -39,6 +39,7 @@ require "./crhtml2markdown/converters/address_converter"
 require "./crhtml2markdown/converters/template_converter"
 require "./crhtml2markdown/converters/acronym_converter"
 require "./crhtml2markdown/converters/wbr_converter"
+require "./crhtml2markdown/converters/select_converter"
 
 # TODO: Write documentation for `Crhtml2markdown`
 module Crhtml2markdown
@@ -82,6 +83,7 @@ module Crhtml2markdown
     OutputConverter.new,
     BidiConverter.new,
     RubyConverter.new,
+    SelectConverter.new,
     TextConverter.new,
   ]
 
