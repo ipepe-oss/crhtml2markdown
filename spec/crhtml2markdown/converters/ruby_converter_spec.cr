@@ -19,5 +19,11 @@ module Crhtml2markdown
       result = convert(html)
       result.should contain("漢字")
     end
+
+    it "ignores rp (ruby parenthesis) elements" do
+      html = "<ruby><rb>漢</rb><rt>kan</rt><rp>(</rp><rb>字</rb><rt>ji</rt><rp>)</rp></ruby>"
+      result = convert(html)
+      result.should eq("漢(kan)字(ji)")
+    end
   end
 end

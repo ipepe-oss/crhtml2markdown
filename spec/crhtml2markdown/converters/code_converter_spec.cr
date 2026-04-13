@@ -45,4 +45,14 @@ describe Crhtml2markdown::CodeConverter do
     html = "<pre><code>no backticks here</code></pre>"
     Crhtml2markdown.convert(html).should eq("```\nno backticks here\n```")
   end
+
+  it "converts inline code with newlines to single line" do
+    html = "<code>line1\nline2\nline3</code>"
+    Crhtml2markdown.convert(html).should eq("`line1 line2 line3`")
+  end
+
+  it "handles inline code with newlines in paragraph" do
+    html = "<p>Text with <code>multi\nline</code> code</p>"
+    Crhtml2markdown.convert(html).should eq("Text with `multi line` code")
+  end
 end
